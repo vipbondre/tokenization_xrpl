@@ -20,3 +20,18 @@ bash \
 Copy code \
 cd frontend \
 npx serve
+
+## How to Run
+
+1. Install Dependencies \
+Navigate to the backend folder and run: \
+npm install express body-parser xrpl
+
+2. Start the Backend Server \
+node server.js
+
+3. Open index.html in a browser \
+Interact with the e-commerce interface to:
+   - Create a wallet
+   - Establish trust lines
+   - Purchase products!
