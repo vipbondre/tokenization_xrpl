@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>XRPL Tokenization Service</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Tokenization</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>XRPL Tokenization Service</h1>
-  <div id="app">
-    <input id="currency" placeholder="Token Currency (e.g., MYTOKEN)">
-    <input id="limit" placeholder="Trust Line Limit (e.g., 1000000)">
-    <button onclick="createTrustLine()">Create Trust Line</button>
-
-    <input id="amount" placeholder="Amount to Issue (e.g., 100)">
-    <button onclick="issueToken()">Issue Token</button>
-
-    <input id="validateAddress" placeholder="Address to Validate">
-    <button onclick="validateToken()">Validate Token</button>
-
-    <div id="output"></div>
+  <h1>E-Commerce Store</h1>
+  <div id="wallet-setup">
+    <h3>Wallet Setup</h3>
+    <button onclick="createWallet()">Create Wallet</button>
+    <p id="wallet-info"></p>
   </div>
-  <script src="app.js"></script>
+  <div id="products">
+    <h3>Products</h3>
+    <div class="product">
+      <p>Product: Gaming Console</p>
+      <p>Price: 100 XRP</p>
+      <button onclick="purchase('Gaming Console', 100)">Buy</button>
+    </div>
+    <div class="product">
+      <p>Product: Smartwatch</p>
+      <p>Price: 50 XRP</p>
+      <button onclick="purchase('Smartwatch', 50)">Buy</button>
+    </div>
+  </div>
+  <div id="output"></div>
+  <script src="script.js"></script>
 </body>
 </html>
