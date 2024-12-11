@@ -1,46 +1,41 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const xrplUtils = require("./xrpl-utils");
+const { createWallet } = require("./xrplUtils");
+const { simulateBankTransaction } = require("./bankAPI");
+const { verifyVendorTransaction } = require("./vendorAPI");
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.json());
 
-// API to establish trust line
-app.post("/trustline", async (req, res) => {
-  const { holderSeed, currency, limit } = req.body;
+app.get("/create-wallet", async (req, res) => {
   try {
-    const result = await xrplUtils.createTrustLine(holderSeed, currency, limit);
-    res.status(200).json({ result });
+    const wallet = await createWallet();
+    res.status(200).json(wallet);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// API to issue tokens
-app.post("/issue", async (req, res) => {
-  const { holderAddress, currency, amount } = req.body;
+app.post("/bank", async (req, res) => {
+  const { product, price, holderAddress } = req.body;
   try {
-    const result = await xrplUtils.issueToken(holderAddress, currency, amount);
-    res.status(200).json({ result });
+    const result = await simulateBankTransaction(product, price, holderAddress);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// API to validate tokens
-app.get("/validate/:holderAddress/:currency", async (req, res) => {
-  const { holderAddress, currency } = req.params;
+app.post("/vendor", async (req, res) => {
+  const { token } = req.body;
   try {
-    const tokenData = await xrplUtils.validateToken(holderAddress, currency);
-    res.status(200).json({ tokenData });
+    const result = await verifyVendorTransaction(token);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Start server
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
