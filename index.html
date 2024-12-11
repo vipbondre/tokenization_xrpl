@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XRPL Tokenization Service</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>XRPL Tokenization Service</h1>
+  <div id="app">
+    <input id="currency" placeholder="Token Currency (e.g., MYTOKEN)">
+    <input id="limit" placeholder="Trust Line Limit (e.g., 1000000)">
+    <button onclick="createTrustLine()">Create Trust Line</button>
+
+    <input id="amount" placeholder="Amount to Issue (e.g., 100)">
+    <button onclick="issueToken()">Issue Token</button>
+
+    <input id="validateAddress" placeholder="Address to Validate">
+    <button onclick="validateToken()">Validate Token</button>
+
+    <div id="output"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
