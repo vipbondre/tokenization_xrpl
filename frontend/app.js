@@ -1,40 +1,49 @@
 const API_BASE = "http://localhost:3000";
+let wallet = null; // To store the user's wallet
 
-async function createTrustLine() {
-  const currency = document.getElementById("currency").value;
-  const limit = document.getElementById("limit").value;
-
-  const holderSeed = prompt("Enter Holder Wallet Seed:");
-  const response = await fetch(`${API_BASE}/trustline`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ holderSeed, currency, limit }),
-  });
-
-  const result = await response.json();
-  document.getElementById("output").innerText = JSON.stringify(result, null, 2);
+async function createWallet() {
+  try {
+    const response = await fetch(`${API_BASE}/create-wallet`);
+    wallet = await response.json();
+    document.getElementById("wallet-info").innerText = `Wallet Address: ${wallet.address}`;
+  } catch (error) {
+    document.getElementById("output").innerText = `Error: ${error.message}`;
+  }
 }
 
-async function issueToken() {
-  const currency = document.getElementById("currency").value;
-  const amount = document.getElementById("amount").value;
+async function purchase(product, price) {
+  if (!wallet) {
+    alert("Please create a wallet first!");
+    return;
+  }
 
-  const holderAddress = prompt("Enter Holder Wallet Address:");
-  const response = await fetch(`${API_BASE}/issue`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ holderAddress, currency, amount }),
-  });
+  try {
+    // Step 1: Bank generates token
+    const bankResponse = await fetch(`${API_BASE}/bank`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product, price, holderAddress: wallet.address }),
+    });
 
-  const result = await response.json();
-  document.getElementById("output").innerText = JSON.stringify(result, null, 2);
-}
+    const bankData = await bankResponse.json();
+    if (bankData.error) {
+      throw new Error(bankData.error);
+    }
 
-async function validateToken() {
-  const address = document.getElementById("validateAddress").value;
-  const currency = document.getElementById("currency").value;
+    // Step 2: Vendor verifies the token
+    const vendorResponse = await fetch(`${API_BASE}/vendor`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: bankData.token }),
+    });
 
-  const response = await fetch(`${API_BASE}/validate/${address}/${currency}`);
-  const result = await response.json();
-  document.getElementById("output").innerText = JSON.stringify(result, null, 2);
+    const vendorData = await vendorResponse.json();
+    if (vendorData.error) {
+      throw new Error(vendorData.error);
+    }
+
+    document.getElementById("output").innerText = `Purchase successful! Product: ${product}, Price: ${price} XRP.`;
+  } catch (error) {
+    document.getElementById("output").innerText = `Error: ${error.message}`;
+  }
 }
