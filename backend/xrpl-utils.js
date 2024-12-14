@@ -4,12 +4,15 @@ const client = new xrpl.Client("wss://s.altnet.rippletest.net:51233/", { connect
 const currency = "SAW";
 const limit = 1000000;
 
+let tx_blob = null;
+/*
 const issuerWalletAddress = "rHDqpezWqnbpWt359n9DAmrrHdeyaWHMUv";
 const userWalletAddress = "rUTabntmg87TAKGeA5y3sxSeNT5r92CqzK";
 const vendorWalletAddress = "rs2pbGtJWMq4FbYkXfM7ioyACzUdBYyiML";
+*/
 
 const issuerWallet = xrpl.Wallet.fromSeed("sEdTyquFDyZLvKQqxP3wtBf4csixYie");  //xrpl.Wallet.generate();
-const userWallet = xrpl.Wallet.fromSeed("sEdS1LZeEpUECZ9zLw5bWTYUd2NpwXg");
+//const userWallet = xrpl.Wallet.fromSeed("sEdS1LZeEpUECZ9zLw5bWTYUd2NpwXg");
 const vendorWallet = xrpl.Wallet.fromSeed("sEdTsKFP712zRRg3KxNY3iz6PPvCCDV");
 
 async function generateWallet() {
@@ -71,7 +74,7 @@ async function getTokenBalance(classicAddress, currency) {
       //console.log(`Balance for ${currency}: ${trustLine.balance}`);
       return trustLine.balance;
     } else {
-      console.log(`No trustline found for ${currency} issued by ${issuerWalletAddress}.`);
+      console.log(`No trustline found for ${currency} issued by ${issuerWallet.classicAddress}.`);
       return null;
     }
   } catch (error) {
@@ -191,7 +194,10 @@ async function transferTokensWrap(holderSeed, price, product) {
 
   const holderWallet = xrpl.Wallet.fromSeed(holderSeed);
   const token = await transferTokens(holderWallet, vendorWallet.classicAddress, price, currency);
-  //const validation = await vendorValidation();
+
+  const offValidation = await validateTransactionOffline(tx_blob, price);
+  tx_blob = null;
+  const validation = await validateTransaction(token.result.hash, price);
 
   await displayWalletsAndBalances(holderWallet.classicAddress, currency);
 
@@ -234,8 +240,9 @@ async function transferTokens(holderWallet, vendorAddress, amount, currency) {
     // Sign and submit the transaction
     const prepared = await client.autofill(paymentTx);
     const signed = holderWallet.sign(prepared);
+    tx_blob = signed.tx_blob;
     const result = await client.submitAndWait(signed.tx_blob);
-    //console.log("Payment transaction result:", result);
+    console.log("Payment transaction result:", result);
     return result;
   } catch (error) {
     console.error("Error in transferTokens:", error);
@@ -256,6 +263,68 @@ async function setInitialFlags() {
   const signed = issuerWallet.sign(prepared);
   const result = await client.submitAndWait(signed.tx_blob);
   console.log("DefaultRipple flag set:", result);  
+}
+
+// Function to validate a transaction on-chain
+async function validateTransaction(txHash, amount) {
+  await client.connect();
+
+  try {
+      // Fetch transaction details
+      const txDetails = await client.request({
+          command: "tx",
+          transaction: txHash,
+      });
+      console.log("Transaction Details:", txDetails);
+
+      // Verify transaction fields
+      const isValid = txDetails.result.meta.TransactionResult === "tesSUCCESS";
+
+      if (isValid) {
+          console.log("Transaction is valid and included in the ledger.");
+      } else {
+          //console.log("Transaction is invalid or does not meet criteria.");
+          throw new Error("Transaction is invalid or does not meet criteria.");
+      }
+      return isValid;
+  } catch (error) {
+      console.error("Error fetching transaction:", error);
+      return false;
+  } finally {
+      await client.disconnect();
+  }
+}
+
+// Function to validate a transaction offline
+function validateTransactionOffline(txBlob, amount) {
+    try {
+      // Decode the transaction blob
+      const decodedTx = xrpl.decode(txBlob);
+      console.log("Decoded Transaction:", decodedTx);
+
+      // Verify the transaction signature
+      const isSignatureValid = xrpl.verifySignature(decodedTx);
+      console.log("Is Signature Valid:", isSignatureValid);
+
+      // Perform additional checks (currency, issuer, etc.)
+      // Verify transaction fields
+      const isValid = decodedTx.TransactionType === "Payment" &&
+                      decodedTx.Amount &&
+                      decodedTx.Amount.currency === currency &&
+                      decodedTx.Amount.issuer === issuerWallet.classicAddress &&
+                      decodedTx.Amount.value === amount.toString();
+
+      if (isValid) {
+          console.log("Transaction is valid Offline.");
+      } else {
+          //console.log("Transaction is invalid or does not meet criteria.");
+          throw new Error("Transaction is invalid or does not meet criteria.");
+      }
+      return isValid;
+    } catch (error) {
+        console.error("Error in offline validation:", error);
+        return false;
+    }
 }
 
 module.exports = { displayWalletsAndBalances, validateWallet, createTrustLine, issueToken, sendXRP, transferTokens, setInitialFlags, transferTokensWrap };
