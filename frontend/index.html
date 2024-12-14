@@ -1,32 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce Tokenization</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetYourPass - Your Ticket Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
 </head>
 <body>
-  <h1>E-Commerce Store</h1>
-  <div id="wallet-setup">
-    <h3>Wallet Setup</h3>
-    <button onclick="createWallet()">Create Wallet</button>
-    <p id="wallet-info"></p>
-  </div>
-  <div id="products">
-    <h3>Products</h3>
-    <div class="product">
-      <p>Product: Gaming Console</p>
-      <p>Price: 100 XRP</p>
-      <button onclick="purchase('Gaming Console', 100)">Buy</button>
+    <!-- Header Section -->
+    <header>
+        <div class="logo-container">
+            <div class="logo">GetYourPass</div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <main id="home">
+        <section class="hot-events">
+            <h1>Hot Events</h1>
+            <div class="event-grid">
+                <div class="event-card">
+                    <img src="images/cricket_event.jpg" alt="Cricket Match">
+                    <h2>Cricket: India vs Australia</h2>
+                    <p>Starts at $50</p>
+                    <button class="buy-button" onclick="openStep1Popup(50)">Buy</button>
+                </div>
+                <div class="event-card">
+                    <img src="images/football_event.jpg" alt="Football Match">
+                    <h2>Football: Barcelona vs Real Madrid</h2>
+                    <p>Starts at $75</p>
+                    <button class="buy-button" onclick="openStep1Popup(75)">Buy</button>
+                </div>
+                <div class="event-card">
+                    <img src="images/music_concert.jpg" alt="Music Concert">
+                    <h2>Music: Taylor Swift Live</h2>
+                    <p>Starts at $100</p>
+                    <button class="buy-button" onclick="openStep1Popup(100)">Buy</button>
+                </div>
+                <!-- New Events -->
+                <div class="event-card">
+                    <img src="images/cricket_event.jpg" alt="Cricket Match">
+                    <h2>Cricket: England vs South Africa</h2>
+                    <p>Starts at $60</p>
+                    <button class="buy-button" onclick="openStep1Popup(60)">Buy</button>
+                </div>
+                <div class="event-card">
+                    <img src="images/football_event.jpg" alt="Football Match">
+                    <h2>Football: Juventus vs AC Milan</h2>
+                    <p>Starts at $85</p>
+                    <button class="buy-button" onclick="openStep1Popup(85)">Buy</button>
+                </div>
+                <div class="event-card">
+                    <img src="images/music_concert.jpg" alt="Music Concert">
+                    <h2>Music: Ed Sheeran World Tour</h2>
+                    <p>Starts at $120</p>
+                    <button class="buy-button" onclick="openStep1Popup(120)">Buy</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Step 1 Modal -->
+    <div id="step1-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('step1-modal')">&times;</span>
+            <h2>Buy Event Ticket</h2>
+            <h3>Step 1</h3>
+            <p>Enter Classic Address</p>
+            <input type="text" id="classic-address" placeholder="Enter Classic Address">
+            <button onclick="submitStep1()">Submit</button>
+            <button class="cancel-button" onclick="closePopup('step1-modal')">Cancel</button>
+        </div>
     </div>
-    <div class="product">
-      <p>Product: Smartwatch</p>
-      <p>Price: 50 XRP</p>
-      <button onclick="purchase('Smartwatch', 50)">Buy</button>
+
+    <!-- Step 2 Modal -->
+    <div id="step2-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('step2-modal')">&times;</span>
+            <h2>Buy Event Ticket</h2>
+            <h3>Step 2</h3>
+            <div class="banner">Trustline created successfully!</div>
+            <p>Available balance in tokens: <strong>5 tokens</strong></p>
+            <p>To generate ticket (Price: <span id="ticket-price"></span>), enter your seed:</p>
+            <input type="text" id="step2-seed" placeholder="Enter Seed">
+            <button onclick="submitStep2()">Submit</button>
+            <button class="cancel-button" onclick="closePopup('step2-modal')">Cancel</button>
+        </div>
     </div>
-  </div>
-  <div id="output"></div>
-  <script src="app.js"></script>
+
+    <!-- Step 3 Modal -->
+    <div id="step3-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('step3-modal')">&times;</span>
+            <h2>Buy Event Ticket</h2>
+            <h3>Step 3</h3>
+            <p>Token balance: <strong><span id="step3-ticket-price"></span></strong></p>
+            <p>To send the ticket price to the seller, please enter your seed:</p>
+            <input type="text" id="step3-seed" placeholder="Enter Seed">
+            <button onclick="submitStep3()">Submit</button>
+            <button class="cancel-button" onclick="closePopup('step3-modal')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('success-modal')">&times;</span>
+            <h2>Buy Event Ticket</h2>
+            <h3>Success</h3>
+            <p>Validation successful by the seller!</p>
+            <div class="success-message">
+                <p>Ticket purchased successfully.</p>
+                <div class="green-tick">&#10004;</div>
+            </div>
+            <button class="cancel-button" onclick="closePopup('success-modal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 GetYourPass. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
