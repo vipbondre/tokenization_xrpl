@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,38 +25,38 @@
                     <img src="images/cricket_event.jpg" alt="Cricket Match">
                     <h2>Cricket: India vs Australia</h2>
                     <p>Starts at $50</p>
-                    <button class="buy-button" onclick="openStep1Popup(50)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('ind_vs_aus', 50)">Buy</button>
                 </div>
                 <div class="event-card">
                     <img src="images/football_event.jpg" alt="Football Match">
                     <h2>Football: Barcelona vs Real Madrid</h2>
                     <p>Starts at $75</p>
-                    <button class="buy-button" onclick="openStep1Popup(75)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('bar_vs_mad', 75)">Buy</button>
                 </div>
                 <div class="event-card">
                     <img src="images/music_concert.jpg" alt="Music Concert">
                     <h2>Music: Taylor Swift Live</h2>
                     <p>Starts at $100</p>
-                    <button class="buy-button" onclick="openStep1Popup(100)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('taylor', 100)">Buy</button>
                 </div>
                 <!-- New Events -->
                 <div class="event-card">
                     <img src="images/cricket_event.jpg" alt="Cricket Match">
                     <h2>Cricket: England vs South Africa</h2>
                     <p>Starts at $60</p>
-                    <button class="buy-button" onclick="openStep1Popup(60)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('eng_vs_sa', 60)">Buy</button>
                 </div>
                 <div class="event-card">
                     <img src="images/football_event.jpg" alt="Football Match">
                     <h2>Football: Juventus vs AC Milan</h2>
                     <p>Starts at $85</p>
-                    <button class="buy-button" onclick="openStep1Popup(85)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('football', 85)">Buy</button>
                 </div>
                 <div class="event-card">
                     <img src="images/music_concert.jpg" alt="Music Concert">
                     <h2>Music: Ed Sheeran World Tour</h2>
                     <p>Starts at $120</p>
-                    <button class="buy-button" onclick="openStep1Popup(120)">Buy</button>
+                    <button class="buy-button" onclick="openStep1Popup('ed_sheeran', 120)">Buy</button>
                 </div>
             </div>
         </section>
@@ -67,8 +68,8 @@
             <span class="close" onclick="closePopup('step1-modal')">&times;</span>
             <h2>Buy Event Ticket</h2>
             <h3>Step 1</h3>
-            <p>Enter Classic Address</p>
-            <input type="text" id="classic-address" placeholder="Enter Classic Address">
+            <p>Enter Seed for creating Trustline</p>
+            <input type="text" id="step1-seed" placeholder="Enter Seed">
             <button onclick="submitStep1()">Submit</button>
             <button class="cancel-button" onclick="closePopup('step1-modal')">Cancel</button>
         </div>
@@ -81,9 +82,8 @@
             <h2>Buy Event Ticket</h2>
             <h3>Step 2</h3>
             <div class="banner">Trustline created successfully!</div>
-            <p>Available balance in tokens: <strong>5 tokens</strong></p>
-            <p>To generate ticket (Price: <span id="ticket-price"></span>), enter your seed:</p>
-            <input type="text" id="step2-seed" placeholder="Enter Seed">
+            <p>To generate tokens (Price: <span id="ticket-price"></span>), enter your classic address:</p>
+            <input type="text" id="step2-seed" placeholder="Enter Classic Address">
             <button onclick="submitStep2()">Submit</button>
             <button class="cancel-button" onclick="closePopup('step2-modal')">Cancel</button>
         </div>
@@ -95,8 +95,8 @@
             <span class="close" onclick="closePopup('step3-modal')">&times;</span>
             <h2>Buy Event Ticket</h2>
             <h3>Step 3</h3>
-            <p>Token balance: <strong><span id="step3-ticket-price"></span></strong></p>
-            <p>To send the ticket price to the seller, please enter your seed:</p>
+            <div class="banner">Tokens generated successfully!</div>
+            <p>To send tokens to the seller, please enter your seed:</p>
             <input type="text" id="step3-seed" placeholder="Enter Seed">
             <button onclick="submitStep3()">Submit</button>
             <button class="cancel-button" onclick="closePopup('step3-modal')">Cancel</button>
