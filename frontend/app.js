@@ -1,6 +1,52 @@
 const API_BASE = "http://localhost:3000";
 let wallet = null; // To store the user's wallet
 
+// Open a specific modal
+function openStep1Popup(price) {
+    document.getElementById("step1-modal").style.display = "flex";
+    document.getElementById("ticket-price").textContent = `$${price}`;
+    document.getElementById("step3-ticket-price").textContent = `$${price}`;
+}
+
+// Close any modal
+function closePopup(modalId) {
+    document.getElementById(modalId).style.display = "none";
+}
+
+// Step 1 Submission
+function submitStep1() {
+    const classicAddress = document.getElementById("classic-address").value;
+    if (classicAddress) {
+        closePopup("step1-modal");
+        document.getElementById("step2-modal").style.display = "flex";
+    } else {
+        alert("Please enter a valid Classic Address.");
+    }
+}
+
+// Step 2 Submission
+function submitStep2() {
+    const seed = document.getElementById("step2-seed").value;
+    if (seed) {
+        closePopup("step2-modal");
+        document.getElementById("step3-modal").style.display = "flex";
+    } else {
+        alert("Please enter your seed.");
+    }
+}
+
+// Step 3 Submission
+function submitStep3() {
+    const seed = document.getElementById("step3-seed").value;
+    if (seed) {
+        closePopup("step3-modal");
+        document.getElementById("success-modal").style.display = "flex";
+    } else {
+        alert("Please enter your seed.");
+    }
+}
+
+
 async function createWallet() {
   try {
     const response = await fetch(`${API_BASE}/create-wallet`);
