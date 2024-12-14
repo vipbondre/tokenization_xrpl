@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { validateWallet, issueToken, displayWalletsAndBalances, transferTokensWrap } = require("./xrpl-utils");
+const { validateWallet, setInitialFlags, issueToken, displayWalletsAndBalances, transferTokensWrap } = require("./xrpl-utils");
 const { simulateBankTransaction } = require("./bankAPI");
 const { verifyVendorTransaction } = require("./vendorAPI");
 
@@ -28,6 +28,7 @@ app.post("/create-trustline", async (req, res) => {
 app.post("/generate-tokens", async (req, res) => {
   const { holderAddress, price } = req.body;
   try {
+    //await setInitialFlags();
     const token = await issueToken(holderAddress, currency, price);
     await displayWalletsAndBalances(holderAddress, currency);
     res.status(200).json(token);
