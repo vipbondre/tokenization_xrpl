@@ -71,3 +71,6 @@ This PoC aims to address:
 
 ## Conclusion  
 The **Get Your Pass** ticketing website provides a robust framework for XRPL-based ticketing systems, enabling secure, privacy-preserving ticket sales and enhancing the user experience through seamless, token-driven transactions.
+
+## Project Report
+https://drive.google.com/file/d/1nudxpmAFan1c9tl0-rQVqDqFMG68ONhN/view?usp=sharing
