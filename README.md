@@ -1,16 +1,51 @@
-# Get Your Pass - Ticket Selling Website with XRPL Tokenization
+# 🎟️ Get Your Pass – Private & Secure Ticketing on XRPL
 
-## Overview  
-The **Get Your Pass** website showcases a secure and private ticketing system powered by the XRP Ledger (XRPL). This system ensures privacy, security, and efficiency throughout the ticket purchase process, abstracting complexities and protecting sensitive user information.
+> 🏆 **Winner of the Hackathon** conducted by [@XRPLLabs](https://twitter.com/XRPLLabs) in collaboration with **IIT Bombay**  
+> 📢 Official results: [https://isrdc.in/blockchain-hackathon/](https://isrdc.in/blockchain-hackathon/)
 
-### Problem Statement  
-This PoC aims to address:  
-- **Token Lifecycle Management**: Issuance, validation, and revocation of tickets as tokens.  
-- **Privacy & Security**: Ensures transaction anonymity, protecting sensitive user details like ticket purchases.  
-- **Offline Validation**: Supports ticket validation without continuous interaction with a central authority.  
+---
 
-#### Use Case Example:  
-- **Ticketing System**: Tokens represent purchased tickets, ensuring the event organizer doesn’t know the user's identity, while the payment facilitator remains unaware of the ticket purpose.
+## 🌐 Overview
+
+**Get Your Pass** is a **secure**, **privacy-focused** ticketing system powered by the **XRP Ledger (XRPL)**.
+
+This system ensures:
+- 🔐 **Privacy**
+- ⚡ **Security**
+- 🔄 **Efficiency**
+
+All while abstracting blockchain complexities and protecting sensitive user data throughout the ticket purchase and validation process.
+
+---
+
+## 🧠 Problem Statement
+
+This Proof of Concept (PoC) aims to solve:
+
+- 🔄 **Token Lifecycle Management**  
+  Issue, validate, and revoke tickets seamlessly as XRPL tokens.
+
+- 🕵️‍♂️ **Privacy & Security**  
+  Transactions are anonymous. Event organizers never see user identities. Payment facilitators don’t know what’s being purchased.
+
+- 📴 **Offline Validation**  
+  Tickets can be validated without constant connection to a central authority — ideal for real-world events and venues.
+
+---
+
+## 🎯 Use Case Example: Ticketing System
+
+- 🎫 **Tickets as Tokens**: Purchased tickets are represented as XRPL tokens.  
+- 🧍‍♂️ ➖ 🎟️ ➖ 🧍‍♀️: User identity is hidden from event organizers.  
+- 💳 ➖ ❓: Payment facilitators have no visibility into the ticketing purpose.  
+- ✅ **Offline Ticket Scanning**: No need for constant backend or internet access.
+
+---
+
+## 🤝 Let's Connect!
+
+Open to collaborations, contributions, or exploring real-world use cases together.  
+Feel free to fork ⭐ the repo or reach out!
 
 ---
 
